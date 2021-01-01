@@ -1,0 +1,32 @@
+extends layout
+
+block content
+  h1 #{title}: #{album.title}
+  if album_instance.length
+
+    p #[strong Delete the following albumsInstance before attempting to delete this album.]
+
+    div(style='margin-left:20px;margin-top:20px')
+
+      h4 albums
+
+      each album in album_instance
+        li
+         a(href=album.url) #{album.album.title} : #{album.imprint} -
+        if album.status=='Available'
+          span.text-success #{album.status}
+        else if album.status=='Maintenance'
+          span.text-danger #{album.status}
+        else
+          span.text-warning #{album.status}
+        if album.status!='Available'
+          span  (Due: #{album.due_back} )
+
+  else
+    p Do you really want to delete this album?
+
+    form(method='POST' action='')
+      div.form-group
+        input#albumid.form-control(type='hidden',name='albumid', required='true', value=album._id )
+
+      button.btn.btn-primary(type='submit') Delete

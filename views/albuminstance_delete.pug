@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  h1 #{title}
+
+  div(style='margin-left:20px;margin-top:20px')
+
+    ul
+     li=albuminstance._id
+     li=albuminstance.album
+     li=albuminstance.imprint
+     li=albuminstance.due_back
+
+    p Do you really want to delete this album?
+
+    form(method='POST' action='')
+      div.form-group
+        input#albuminstanceid.form-control(type='hidden' , name='albuminstanceid', required='true', value=albuminstance._id )
+
+      button.btn.btn-primary(type='submit') Delete

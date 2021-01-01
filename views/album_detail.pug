@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  h1 #{title}: #{album.title}
+
+  p #[strong artist:]
+    a(href=album.artist.url) #{album.artist.name}
+  p #[strong Summary:] #{album.summary}
+  p #[strong ISBN:] #{album.isbn}
+  p #[strong Genre:]
+    each val, index in album.genre
+      a(href=val.url) #{val.name}
+      if index < album.genre.length - 1
+        |,
+
+  div(style='margin-left:20px;margin-top:20px')
+    h4 Copies
+
+    each val in album_instances
+      hr
+      if val.status=='Available'
+        p.text-success #{val.status}
+      else if val.status=='Maintenance'
+        p.text-danger #{val.status}
+      else
+        p.text-warning #{val.status}
+      p #[strong Imprint:] #{val.imprint}
+      if val.status!='Available'
+        p #[strong Due back:] #{val.due_back}
+      p #[strong Id:]
+        a(href=val.url) #{val._id}
+
+    else
+      p There are no copies of this album in the library.
+    hr
+    p
+    a(href=album.url+'/delete') Delete album

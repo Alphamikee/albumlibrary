@@ -1,0 +1,26 @@
+extends layout
+
+block content
+
+  h1 ID: #{albuminstance._id}
+
+  p #[strong Title:]
+    a(href=albuminstance.Album.url) #{albuminstance.Album.title}
+  p #[strong Imprint:] #{albuminstance.imprint}
+
+  p #[strong Status:]
+    if albuminstance.status=='Available'
+      span.text-success #{albuminstance.status}
+    else if albuminstance.status=='Maintenance'
+      span.text-danger #{albuminstance.status}
+    else
+      span.text-warning #{albuminstance.status}
+
+  if albuminstance.status!='Available'
+    p #[strong Due back:] #{albuminstance.due_back}
+  hr
+  p
+  a(href=albuminstance.url+'/delete') delete albuminstance
+  hr
+  p
+  a(href=albuminstance.url+'/update') update albuminstance

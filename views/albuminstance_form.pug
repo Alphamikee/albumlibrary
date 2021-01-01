@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  h1=title
+
+  form(method='POST' action='')
+    div.form-group
+      label(for='album') album:
+      select#album.form-control(type='select' placeholder='Select album' name='album' required='true')
+        - album_list.sort(function(a, b) {let textA = a.title.toUpperCase(); let textB = b.title.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});
+        for album in album_list
+          if albuminstance
+            option(value=album._id selected=(albuminstance.Album.toString()==album._id.toString() ? 'selected' : false)) #{album.title}
+          else
+            option(value=album._id) #{album.title}
+
+    div.form-group
+      label(for='imprint') Imprint:
+      input#imprint.form-control(type='text' placeholder='Publisher and date information' name='imprint' required='true' value=(undefined===albuminstance ? '' : albuminstance.imprint))
+    div.form-group
+      label(for='due_back') Date when album available:
+      input#due_back.form-control(type='date' name='due_back' value=(undefined===albuminstance ? '' : albuminstance.due_back))
+
+    div.form-group
+      label(for='status') Status:
+      select#status.form-control(type='select' placeholder='Select status' name='status' required='true')
+        option(value='Maintenance') Maintenance
+        option(value='Available') Available
+        option(value='Loaned') Loaned
+        option(value='Reserved') Reserved
+
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors
+    ul
+      for error in errors
+        li!= error.msg
